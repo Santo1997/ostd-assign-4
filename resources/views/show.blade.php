@@ -1,6 +1,6 @@
 <x-layout>
-    <div>
-        <table>
+    <div class="overflow-x-auto">
+        <table class="table text-center">
             <tr>
                 <th>Name</th>
                 <th>Email</th>
@@ -12,18 +12,27 @@
             </tr>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{$user->name}}</td>
+                    <td class="font-bold">{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->phone}}</td>
                     <td>{{$user->address}}</td>
                     <td>{{$user->created_at}}</td>
                     <td>{{$user->updated_at}}</td>
-                    <td>
-                        <a href="">Edit</a>
-                        <a href="">Delete</a>
+                    <td class="space-x-2">
+                        <a href="/contacts/{{$user->id}}" class="link link-info">View</a>
+                        <a href="/contacts/{{$user->id}}/edit" class="link link-info">Edit</a>
+                        <form action="/contacts/{{$user->id}}" method="post" style="display:inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="link link-error">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
         </table>
+
+        @if(session('success'))
+            <p class="text-center text-error mt-5">{{session('success')}}</p>
+        @endif
     </div>
 </x-layout>
